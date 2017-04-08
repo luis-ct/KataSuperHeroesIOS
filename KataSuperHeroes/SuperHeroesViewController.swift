@@ -8,9 +8,15 @@
 
 import UIKit
 import BothamUI
-import MarvelAPIClient
 
-class SuperHeroesViewController: KataSuperHeroesViewController, BothamTableViewController {
+protocol SuperHeroesView: BothamLoadingUI, BothamPullToResfreshUI, BothamUI {
+    func showEmptyCase()
+    func showNoMoreItems()
+    func show(items: [SuperHero])
+    func openSuperHeroDetailScreen(_ superHeroDetailViewController: UIViewController)
+}
+
+class SuperHeroesViewController: KataSuperHeroesViewController, BothamTableViewController, SuperHeroesView {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyCaseView: UILabel!
@@ -25,31 +31,35 @@ class SuperHeroesViewController: KataSuperHeroesViewController, BothamTableViewC
         tableView.accessibilityLabel = "SuperHeroesTableView"
         tableView.accessibilityIdentifier = "SuperHeroesTableView"
         configureNavigationBarBackButton()
+
+        pullToRefreshHandler.addTo(scrollView: tableView)
+
         super.viewDidLoad()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        MarvelAPIClient.configureCredentials(
-            publicKey: "bf1f5d5f088f59478a3f68324fd1face",
-            privateKey: "d3fa0b1bad53d48b8bac7b9d4a02a860d24caca0")
+    override func viewWillAppear(_ animated: Bool) {}
 
-        let charactersAPIClient = MarvelAPIClient.charactersAPIClient
-        charactersAPIClient.getAll(offset: 0, limit: 10) { response in
-            print("Get characters by offset and limit:")
-            let characters = response.value?.characters
-            print(characters?[0].name ?? "")
-        }
+    fileprivate func configureNavigationBarBackButton() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
     }
 
+    /**
+     *  SuperHeroesView *
+     */
     func showEmptyCase() {
         emptyCaseView.isHidden = false
+        pullToRefreshHandler.remove()
+    }
+
+    func showNoMoreItems() {
+        pullToRefreshHandler.remove()
     }
 
     func openSuperHeroDetailScreen(_ superHeroDetailViewController: UIViewController) {
         navigationController?.push(viewController: superHeroDetailViewController)
     }
 
-    fileprivate func configureNavigationBarBackButton() {
-        navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+    func stopRefreshing() {
+        pullToRefreshHandler.endRefreshing()
     }
 }

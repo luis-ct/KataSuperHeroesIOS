@@ -13,8 +13,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(
+		_ application: UIApplication,
+		didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
             window = UIWindow(frame:UIScreen.main.bounds)
             installRootViewControllerIntoWindow(window)
             configureWindow()
@@ -38,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationBarAppearance.tintColor = UIColor.navigationBarTitleColor
         navigationBarAppearance.isTranslucent = false
         navigationBarAppearance.titleTextAttributes = [
-            NSForegroundColorAttributeName : UIColor.navigationBarTitleColor
+            NSForegroundColorAttributeName: UIColor.navigationBarTitleColor
         ]
     }
 

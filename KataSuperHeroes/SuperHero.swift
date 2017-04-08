@@ -10,9 +10,9 @@ import Foundation
 
 struct SuperHero {
 
-    let name: String
+    let idSuperHero: String
+    let name: String?
     let photo: URL?
     let isAvenger: Bool
-    let description: String
-
+    let description: String?
 }

@@ -11,13 +11,22 @@ import UIKit
 import BothamUI
 import SDWebImage
 
-class SuperHeroDetailViewController: KataSuperHeroesViewController {
+protocol SuperHeroViewProtocol: BothamLoadingUI {
+    func show(superHero: SuperHero?)
+}
+
+class SuperHeroDetailViewController: KataSuperHeroesViewController, SuperHeroViewProtocol {
 
     @IBOutlet weak var avengersBadgeImageView: UIImageView!
 
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+
+    override func viewDidLoad() {
+
+        super.viewDidLoad()
+    }
 
     func show(superHero: SuperHero?) {
         guard let superHero = superHero else {

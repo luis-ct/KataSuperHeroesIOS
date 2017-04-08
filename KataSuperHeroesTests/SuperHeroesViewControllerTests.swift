@@ -103,8 +103,10 @@ class SuperHeroesViewControllerTests: AcceptanceTestCase {
         _ = givenThereAreSomeSuperHeroes(0)
     }
 
-    fileprivate func givenThereAreSomeSuperHeroes(_ numberOfSuperHeroes: Int = 10,
-        avengers: Bool = false) -> [SuperHero] {
+    fileprivate func givenThereAreSomeSuperHeroes(
+		_ numberOfSuperHeroes: Int = 10,
+		avengers: Bool = false) -> [SuperHero] {
+
         var superHeroes = [SuperHero]()
         for i in 0..<numberOfSuperHeroes {
             let superHero = SuperHero(name: "SuperHero - \(i)",
